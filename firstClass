@@ -1,0 +1,88 @@
+#include <iostream>
+
+using namespace std;
+
+
+class AC{
+    public:
+        AC(int ns = 123){
+            nSerie = ns;
+            temp = 16;
+            vel = 1;
+            ligado = false;
+        }
+        ~AC
+
+
+        void aum_Temp(){
+            if(ligado){
+                if(temp<30){
+                    temp++;
+                }
+            }
+        }
+
+        void dim_Temp(){
+            if(ligado){
+                if(temp>15){
+                    temp--;
+                }
+            }
+        }
+
+          void aum_Vel(){
+            if(ligado){
+                if(vel<3){
+                    vel++;
+                }
+            }
+        }
+
+        void dim_Vel(){
+            if(ligado){
+                if(vel>1){
+                    vel--;
+                }
+            }
+        }
+
+        void ligaDesliga(){
+            ligado = !ligado;
+        }
+        int getNS(){
+            return nSerie;
+        }
+
+        void print(){
+            if(!ligado)
+                cout<<"AC desligado!"<<endl;
+            else{
+                cout<<"AC "<< getNS()<<" LIGADO."<<endl;
+                cout<<"TEMPERATURA: "<<temp<< endl;
+                cout<<"VELOCIDADE: "<< vel<<endl;
+            }
+
+        }
+
+
+    private:
+        int nSerie;
+        int temp;
+        int vel;
+        bool ligado;
+};
+
+
+int main()
+{
+    AC MeuAr;
+    MeuAr.ligaDesliga();
+    MeuAr.print();
+    MeuAr.aum_Temp();
+    MeuAr.aum_Vel();
+    MeuAr.print();
+    return 0;
+
+
+}
+
