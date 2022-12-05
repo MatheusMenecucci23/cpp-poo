@@ -3,27 +3,37 @@
 
 using namespace std;
 
+//interface
 class APoo{
     private:
-        int RA;
+        const int RA;
         string nome;
         int p1,p2,sub;
         int somaNotasTrab;
         int nTrabalho;
+        static int contador;
+        static int SEQRA;
+
+
 
     public:
         //construtor
-        APoo(int vRA, string vnome,int vp1=0,int vp2=0, int vsub=0, int vsomaNotasTrab=0,int vnTrabalho=0);
+        APoo( string vnome,int vp1=0,int vp2=0, int vsub=0, int vsomaNotasTrab=0,int vnTrabalho=0);
+
+        //DESTRUTOR
+        ~APoo();
 
         //métodos get
-        int getRA();
-        string getNome();
-        int getP1();
-        int getP2();
-        int getSub();
-        int getSoma();
-        int getnTrabalho();
-        double getMtrab();
+        //boa prática: declarar os gets como const
+        int getRA() const;
+        string getNome() const;
+        int getP1() const;
+        int getP2() const;
+        int getSub() const;
+        int getSoma() const;
+        int getnTrabalho() const;
+        double getMtrab() const;
+        static int getContador();
 
         //métodos set
         void setNome();
@@ -35,8 +45,24 @@ class APoo{
 
 };
 
-APoo::APoo(int vRA, string vnome,int vp1,int vp2, int vsub, int vsomaNotasTrab,int vnTrabalho)
-:RA(vRA),nome(vnome){
+//implementação
+
+//inicializando atributos static
+int APoo::contador = 0;
+int APoo::SEQRA = 10000;
+
+
+int APoo::getContador(){
+    return contador;
+}
+
+APoo::~APoo(){
+    contador--;
+}
+
+APoo::APoo(string vnome,int vp1,int vp2, int vsub, int vsomaNotasTrab,int vnTrabalho)
+:RA(++SEQRA),nome(vnome){//inicialização de membros
+    contador++;
     if(setP1(vp1)==false) {
         p1=0;
     };
@@ -126,28 +152,28 @@ bool APoo::AddTrab(int nota){
 };
 
 
-int APoo::getRA(){
+int APoo::getRA() const{
     return RA;
 };
-string APoo::getNome(){
+string APoo::getNome() const{
     return nome;
 };
-int APoo::getP1(){
+int APoo::getP1() const{
     return p1;
 };
-int APoo::getP2(){
+int APoo::getP2() const{
     return p2;
 };
-int APoo::getSub(){
+int APoo::getSub() const{
     return sub;
 };
-int APoo::getSoma(){
+int APoo::getSoma() const{
     return somaNotasTrab;
 };
-int APoo::getnTrabalho(){
+int APoo::getnTrabalho() const{
     return nTrabalho;
 };
-double APoo::getMtrab(){
+double APoo::getMtrab() const{
     if (nTrabalho>0)
     {
         return somaNotasTrab/nTrabalho;
@@ -158,21 +184,32 @@ double APoo::getMtrab(){
 };
 
 
+
+//execução
 int main(){
-    APoo aluno1(1234,"Matheus");
+    cout<<"ALUNOS CRIADOS: "<<APoo::getContador()<<endl;
+
+    const APoo aluno2("Maria");
+    cout <<"NOME: "<< aluno2.getNome()<<endl;
+    cout <<"MÉDIA TRABALHO: "<<aluno2.getMtrab()<<endl;
+
+    cout<<" "<<endl;
+
+    APoo aluno1("Matheus");
 
     aluno1.setP1(90);
     aluno1.setP2(100);
     aluno1.AddTrab(100);
 
-    cout <<aluno1.getRA()<<endl;
-    cout <<aluno1.getNome()<<endl;
-    cout <<aluno1.getP1()<<endl;
-    cout <<aluno1.getP2()<<endl;
-    cout <<aluno1.getSub()<<endl;
-    cout <<aluno1.getnTrabalho()<<endl;
-    cout <<aluno1.getSoma()<<endl;
-    cout <<aluno1.getMtrab()<<endl;
+    cout <<"RA: "<<aluno1.getRA()<<endl;
+    cout <<"NOME: "<<aluno1.getNome()<<endl;
+    cout <<"P1: "<<aluno1.getP1()<<endl;
+    cout <<"P2: "<<aluno1.getP2()<<endl;
+    cout <<"SUB: "<<aluno1.getSub()<<endl;
+    cout <<"NÚMERO TRABALHO: "<<aluno1.getnTrabalho()<<endl;
+    cout <<"SOMA:"<<aluno1.getSoma()<<endl;
+    cout <<"MÉDIA TRABALHO:"<<aluno1.getMtrab()<<endl;
 
+    cout<<"ALUNOS CRIADOS: "<<APoo::getContador()<<endl;
 
 }
